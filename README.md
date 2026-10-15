@@ -1,34 +1,32 @@
 # AI Team
 
-**One terminal. Your own AI team. Your own editable memory.**
+A Windows terminal interface for coordinating multiple AI command-line agents, with automatic routing, parallel delegation, project workspaces, and editable local SQLite memory.
 
-AI Team is a Windows terminal interface that coordinates multiple locally installed AI command-line tools. It supports automatic agent selection, delegation, parallel execution, Markdown rendering, local SQLite memory, and project workflows.
+> AI Team does **not** include AI subscriptions, provider accounts, or model access. Install and authenticate compatible provider CLIs separately.
 
-## Requirements
+## Install (Windows)
 
-- Windows 10/11 with PowerShell 5.1 or later
-- Node.js 22.13+ (portable Node.js works; administrator access is not required)
-- At least one supported AI CLI installed and authenticated separately
+**Requirements:** Windows 10/11, PowerShell 5.1+, Node.js **22.13+** (Node.js 24 LTS recommended), and at least one supported authenticated AI CLI. Administrator privileges are not required.
 
-## Installation
-
-1. Download or clone this repository.
-2. Put portable `node.exe` in `$HOME\Tools\NodeJS\node.exe`, or install Node.js 22.13+ on your PATH.
-3. From the downloaded project folder, run:
+1. Download this repository as a ZIP using **Code → Download ZIP**, or clone it with Git.
+2. Extract the project.
+3. Open PowerShell in the folder containing `install.ps1` and run:
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
-4. Open a new PowerShell window and run:
+4. Open a **new** PowerShell window and start the app:
 
 ```powershell
 ait
 ```
 
-The installer installs under your Windows user profile, runs tests before replacing an existing installation, and does not require administrator privileges.
+If `node` is not on PATH, you can use portable Node.js by placing `node.exe` in `$HOME\Tools\NodeJS\node.exe`. The installer checks syntax and runs the test suite before replacing an existing installation, keeping a backup.
 
-## Providers
+**Note:** The source files must be uploaded to this repository before the installation steps above will work. A README alone is not an installable application.
+
+## Configure AI agents
 
 ```powershell
 ait providers
@@ -36,22 +34,27 @@ ait providers setup
 ait providers add
 ```
 
-Supported integrations include Claude (Sonnet and Opus), Codex and Antigravity, subject to CLI availability and authentication. Provider availability depends on your local setup. An agent marked READY is not a guarantee of a valid remote session.
+Supported integrations include Claude, Codex, Antigravity and configurable generic CLI providers, subject to local installation and authentication. A provider marked READY may still require an authenticated session.
 
-## Memory and projects
+## How routing works
 
-AI Team stores editable local memory and project context using SQLite. Open the memory interface in the app to inspect and edit entries. **Your personal memory database, credentials, sessions and workspaces are not included in this repository.**
+Simple greetings and short questions use one suitable agent to avoid unnecessary latency. Complex implementation tasks can delegate to multiple available agents; explicit requests for all agents are supported. The activity panel should distinguish active, queued, idle, completed and failed agents. Percentages must not imply progress that cannot be measured.
 
-## Usage
+## Local memory
 
-Run `ait` and choose a project. Simple prompts can use one agent; more complex tasks can delegate to multiple configured agents. The effort setting guides supported providers. CLI flags and capabilities vary by provider.
+Open **F4 → memory** to edit identity, agent roles, skills, projects, sessions, knowledge and system workflows. Local files live under `%USERPROFILE%\.ait`, including the SQLite memory database, projects and provider settings. These files are **not part of the public source**.
 
-## Privacy and security
+## Commands
 
-- Never commit `.env` files, credentials, local configuration, chat logs, or personal memory databases.
-- Review scripts before execution.
-- Authentication to third-party AI services is managed by their respective CLIs.
-- No credentials are bundled with this project.
+```powershell
+ait
+ait providers
+ait doctor
+ait memory list
+ait memory export
+```
+
+Within the app: `/help`, `/effort auto|low|medium|high|xhigh`, F2 (quota), F3 (mods), F4 (memory).
 
 ## Development
 
@@ -59,6 +62,12 @@ Run `ait` and choose a project. Simple prompts can use one agent; more complex t
 node --test
 ```
 
+Automated tests do not guarantee real-world provider authentication, Windows terminal behavior or network availability.
+
+## Privacy and security
+
+Never commit local memory, logs, workspaces, `.env` files, access tokens, corporate files or credentials. Review changes before publishing, and follow your organization's software policies. See `SECURITY.md` for reporting guidance.
+
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT — see `LICENSE`.
