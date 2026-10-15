@@ -3,16 +3,24 @@ node_modules/
 .env.*
 *.log
 *.zip
+*.secret
+*.pem
+*.key
+*.p12
+*.pfx
 *.db
 *.db-*
 *.sqlite
 *.sqlite3
-*.secret
-config.json
-quotas.json
+*.sqlite-wal
+*.sqlite-shm
+.ait/
 AIT Runs/
 AIT Chat/
 Orchestration/
 Workspaces/
 OneDrive*/
+config.json
+quotas.json
 .DS_Store
+Thumbs.db
